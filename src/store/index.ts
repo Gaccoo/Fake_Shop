@@ -14,12 +14,14 @@ export type Product = {
 export interface Store {
   shopData: Product[]
   shopCategories: string[]
+  searchQueue: string
 }
 
 export default createStore<Store>({
   state: {
     shopData: [],
-    shopCategories: []
+    shopCategories: [],
+    searchQueue: '',
   },
   mutations: {
     setShopData(state, payload) {
@@ -27,6 +29,9 @@ export default createStore<Store>({
     },
     setShopCategories(state, payload) {
       state.shopCategories = payload;
+    },
+    setSearch(state, payload) {
+      state.searchQueue = payload
     }
   },
   actions: {
@@ -37,6 +42,9 @@ export default createStore<Store>({
     async getShopCategories(state) {
       const { data } = await axios.get('https://fakestoreapi.com/products/categories');
       state.commit('setShopCategories', data)
+    },
+    actionSearchValue(state, data) {
+      state.commit('setSearch', data)
     }
   },
   modules: {},

@@ -1,10 +1,15 @@
 <template>
   <div class="shop-section">
     <Sidebar class="sidebar" />
-  <div class="shop-list">
-    <h2 v-if="isLoading">Loading...</h2>
-    <ItemCard  v-else v-for="item in allShopData" :key="item.id" :data="item" />
-  </div>
+    <div class="shop-list">
+      <h2 v-if="isLoading">Loading...</h2>
+      <ItemCard
+        v-else
+        v-for="item in allShopData"
+        :key="item.id"
+        :data="item"
+      />
+    </div>
   </div>
 </template>
 
@@ -13,32 +18,34 @@ import { defineComponent } from "vue";
 import ItemCard from "@/components/ItemCard.vue";
 import Sidebar from "@/components/Sidebar.vue";
 
-
 export default defineComponent({
   name: "Shop",
-  components: {ItemCard, Sidebar},
+  components: { ItemCard, Sidebar },
   data: () => ({
     isLoading: true,
     data: undefined,
   }),
   computed: {
     allShopData() {
-      return this.$store.state.shopData
-    }
+      const allShopData = this.$store.state.shopData;
+      return allShopData.filter((item) =>
+        item.title
+          .toLowerCase()
+          .includes(this.$store.state.searchQueue.toLowerCase())
+      );
+    },
   },
   mounted() {
     this.data = this.$store.getters.getShopData;
-    this.$store.dispatch('getShopData')
-        .then(() => {
-          this.isLoading = false;
-        })
-    console.log(this.data)
+    this.$store.dispatch("getShopData").then(() => {
+      this.isLoading = false;
+    });
+    console.log(this.data);
   },
 });
 </script>
 
 <style lang="scss">
-
 .shop-section {
   display: grid;
   grid-template-columns: 1fr 2fr;
@@ -57,7 +64,6 @@ export default defineComponent({
   justify-content: center;
   align-items: flex-start;
   background-color: #fff;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
 }
-
 </style>

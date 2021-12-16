@@ -7,6 +7,7 @@ declare module '@vue/runtime-core' {
     export interface State {
         shopData: Product[]
         shopCategories: string[]
+        searchQueue: string
     }
 
     // provide typings for `this.$store`

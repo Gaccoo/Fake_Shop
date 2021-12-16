@@ -1,27 +1,26 @@
 <template>
   <header class="header">
-    <div class="header-top">Up to 50% off with code "CHRISTMAS" at checkout</div>
+    <div class="header-top">
+      Up to 50% off with code "CHRISTMAS" at checkout
+    </div>
     <div class="header-bottom">
       <div class="logo-wrapper">
-
-      <img class="logo" alt="Vue logo" src="@/assets/logo.png" />
-      <div class="text-wrapper">
-        <span>Vue.js</span>
-        <span>shop</span>
+        <img class="logo" alt="Vue logo" src="@/assets/logo.png" />
+        <div class="text-wrapper">
+          <span>Vue.js</span>
+          <span>shop</span>
+        </div>
       </div>
-
-      </div>  <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/shop">Shop</router-link> |
-      <router-link to="/delivery">Delivery</router-link> |
-      <router-link to="/about">Contacts</router-link>
-    </div>
+      <div id="nav">
+        <router-link to="/">Home</router-link> |
+        <router-link to="/shop">Shop</router-link> |
+        <router-link to="/delivery">Delivery</router-link> |
+        <router-link to="/about">Contacts</router-link>
+      </div>
       <SearchBar />
 
       <div class="header-controls">
-        <div class="user-wrapper">
-        Log in / Register
-        </div>
+        <div class="user-wrapper">Log in / Register</div>
 
         <div class="cart-wrapper">
           <span>Wishlist</span>
@@ -31,17 +30,16 @@
     </div>
   </header>
   <div class="page">
-
-  <router-view />
+    <router-view />
   </div>
 </template>
 
 <script>
 import SearchBar from "@/components/SearchBar";
-import {defineComponent} from "vue";
+import { defineComponent } from "vue";
 export default defineComponent({
-  components: {SearchBar}
-})
+  components: { SearchBar },
+});
 </script>
 
 <style lang="scss">
@@ -93,7 +91,7 @@ export default defineComponent({
     gap: 10px;
     justify-content: space-between;
     align-items: center;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
   }
 
   & .text-wrapper {

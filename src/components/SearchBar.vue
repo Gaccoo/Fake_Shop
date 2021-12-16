@@ -1,6 +1,6 @@
 <template>
-  <form class="form" @submit.prevent="">
-    <input class="input window" type="text" placeholder="Search...">
+  <form class="form" @submit.prevent="setSearch">
+    <input class="input window" v-model="searchValue" type="text" placeholder="Search...">
     <input class="input button" type="submit" value="Go">
   </form>
 </template>
@@ -9,7 +9,15 @@
 import {defineComponent} from "vue";
 
 export default defineComponent ({
-  name: "SearchBar"
+  name: "SearchBar",
+  data: () => ({
+    searchValue: '',
+  }),
+  methods: {
+    setSearch() {
+      this.$store.dispatch('actionSearchValue', this.searchValue)
+    }
+  }
 })
 </script>
 
