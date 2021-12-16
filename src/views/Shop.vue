@@ -27,7 +27,18 @@ export default defineComponent({
   }),
   computed: {
     allShopData() {
-      const allShopData = this.$store.state.shopData;
+      const store = this.$store
+      const category = store.getters.getActiveCategory
+      const allShopData = store.state.shopData;
+      if(category){
+        return allShopData.
+        filter((item) => item.category === category)
+            .filter((item) =>
+            item.title
+                .toLowerCase()
+                .includes(this.$store.state.searchQueue.toLowerCase())
+        );
+      }
       return allShopData.filter((item) =>
         item.title
           .toLowerCase()

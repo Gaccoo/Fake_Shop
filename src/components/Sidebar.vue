@@ -1,15 +1,16 @@
 <template>
   <div class="sidebar">
     <div class="categories">
-      <span class="category" v-for="item in categories" :key="item">{{ formatName(item) }}</span>
+      <span class="category" @click="setActiveCategory(undefined)">ALL PRODUCTS</span>
+      <span class="category" v-for="item in categories" :key="item" @click="setActiveCategory(item)">
+        {{ formatName(item) }}
+      </span>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-
-
 
 export default defineComponent({
   name: "Sidebar",
@@ -24,19 +25,25 @@ export default defineComponent({
   },
   mounted() {
     this.data = this.$store.getters.getShopCategories;
-    this.$store.dispatch("getShopCategories").then(() => {
-      this.isLoading = false;
-      console.log('Data received')
-
-    }).catch(() => console.error('Network Error')).finally(() => {
-      console.log('DONE')
-    });
+    this.$store
+      .dispatch("getShopCategories")
+      .then(() => {
+        this.isLoading = false;
+        console.log("Data received");
+      })
+      .catch(() => console.error("Network Error"))
+      .finally(() => {
+        console.log("DONE");
+      });
   },
   methods: {
-    formatName (value: string) {
-      return value.toUpperCase()
+    formatName(value: string) {
+      return value.toUpperCase();
+    },
+    setActiveCategory(category: string) {
+      this.$store.dispatch("actionCategory", category)
     }
-  }
+  },
 });
 </script>
 
@@ -50,7 +57,7 @@ export default defineComponent({
   flex-direction: column;
   align-items: flex-start;
   text-align: start;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
 }
 
 .category {
@@ -66,7 +73,4 @@ export default defineComponent({
   border-left: 10px solid #42b983;
 }
 
-.heading {
-  padding: 10px;
-}
 </style>
