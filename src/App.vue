@@ -15,7 +15,7 @@
         <router-link to="/">Home</router-link> |
         <router-link to="/shop">Shop</router-link> |
         <router-link to="/delivery">Delivery</router-link> |
-        <router-link to="/about">Contacts</router-link>
+        <router-link to="/contacts">Contacts</router-link>
       </div>
       <SearchBar />
 
@@ -32,13 +32,15 @@
   <div class="page">
     <router-view />
   </div>
+  <Popup v-if="this.$store.getters.getActiveItem" />
 </template>
 
 <script>
 import SearchBar from "@/components/SearchBar";
 import { defineComponent } from "vue";
+import Popup from "@/components/Popup";
 export default defineComponent({
-  components: { SearchBar },
+  components: {Popup, SearchBar },
 });
 </script>
 
@@ -113,6 +115,11 @@ export default defineComponent({
 .page {
   padding: 20px;
   min-height: 100vh;
+}
+
+.cart-wrapper {
+  display: flex;
+  gap: 10px;
 }
 
 .header-controls {

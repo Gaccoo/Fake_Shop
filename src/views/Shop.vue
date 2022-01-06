@@ -2,10 +2,10 @@
   <div class="shop-section">
     <Sidebar class="sidebar" />
     <div class="shop-list">
-      <h2 v-if="isLoading">Loading...</h2>
+      <h4 v-if="isLoading">Unloading your items from warehouse...</h4>
       <ItemCard
         v-else
-        v-for="item in allShopData"
+        v-for="item in shopDataToShow"
         :key="item.id"
         :data="item"
       />
@@ -26,24 +26,26 @@ export default defineComponent({
     data: undefined,
   }),
   computed: {
-    allShopData() {
-      const store = this.$store
-      const category = store.getters.getActiveCategory
-      const allShopData = store.state.shopData;
-      if(category){
-        return allShopData.
-        filter((item) => item.category === category)
-            .filter((item) =>
-            item.title
-                .toLowerCase()
-                .includes(this.$store.state.searchQueue.toLowerCase())
+    shopDataToShow() {
+      const store = this.$store;
+      const category = this.$route.query.category as undefined | string;
+      const shopDataToShow = store.state.shopData;
+
+      if (!category) {
+        return shopDataToShow.filter((item) =>
+          item.title
+            .toLowerCase()
+            .includes(this.$store.state.searchQueue.toLowerCase())
         );
       }
-      return allShopData.filter((item) =>
-        item.title
-          .toLowerCase()
-          .includes(this.$store.state.searchQueue.toLowerCase())
-      );
+
+      return shopDataToShow
+        .filter((item) => item.category === category)
+        .filter((item) =>
+          item.title
+            .toLowerCase()
+            .includes(this.$store.state.searchQueue.toLowerCase())
+        );
     },
   },
   mounted() {
@@ -51,7 +53,6 @@ export default defineComponent({
     this.$store.dispatch("getShopData").then(() => {
       this.isLoading = false;
     });
-    console.log(this.data);
   },
 });
 </script>

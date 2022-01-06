@@ -9,6 +9,7 @@ declare module '@vue/runtime-core' {
         shopCategories: string[]
         searchQueue: string
         activeCategory: string | undefined
+        activeItem: number | undefined
     }
 
     // provide typings for `this.$store`

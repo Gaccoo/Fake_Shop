@@ -1,8 +1,15 @@
 <template>
   <div class="sidebar">
     <div class="categories">
-      <span class="category" @click="setActiveCategory(undefined)">ALL PRODUCTS</span>
-      <span class="category" v-for="item in categories" :key="item" @click="setActiveCategory(item)">
+      <span :class="category ? 'category' : 'category active'" @click="setActiveCategory(undefined)"
+        >ALL PRODUCTS</span
+      >
+      <span
+        v-for="item in categories"
+        :class="category === item ? 'category active' : 'category'"
+        :key="item"
+        @click="setActiveCategory(item)"
+      >
         {{ formatName(item) }}
       </span>
     </div>
@@ -22,6 +29,9 @@ export default defineComponent({
     categories() {
       return this.$store.getters.getShopCategories;
     },
+    category() {
+      return this.$route.query.category as undefined | string;
+    }
   },
   mounted() {
     this.data = this.$store.getters.getShopCategories;
@@ -41,13 +51,22 @@ export default defineComponent({
       return value.toUpperCase();
     },
     setActiveCategory(category: string) {
-      this.$store.dispatch("actionCategory", category)
-    }
+      this.$router.replace({ query: { category: category } });
+    },
+    removeActiveCategory() {
+      this.$router.replace({ name: "Shop" });
+    },
+  },
+  watch: {
+    $route() {
+      const category = this.$route.query.category;
+      this.$store.dispatch("actionCategory", category);
+    },
   },
 });
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .sidebar {
   align-self: flex-start;
 }
@@ -67,10 +86,13 @@ export default defineComponent({
   border-bottom: 1px solid #999;
   cursor: pointer;
   transition: 0.5s;
-}
 
-.category:hover {
-  border-left: 10px solid #42b983;
-}
+  &.category:hover {
+    border-left: 10px solid #42b983;
+  }
 
+  &.active {
+    border-left: 10px solid #25694a;
+  }
+}
 </style>

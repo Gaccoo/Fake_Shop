@@ -1,11 +1,11 @@
 <template>
-  <div class="item-card">
+  <div class="item-card" @click="setActiveItem(data.id)">
       <div class="image-wrapper">
     <img class="image" :src="data.image" alt="not found">
     </div>
       <div class="button-wrapper">
         <button class="button gold">ADD TO CART</button>
-        <button class="button">BUY</button>
+        <button class="button">BUY NOW</button>
       </div>
     <div class="item-info">
         <div class="price">
@@ -23,7 +23,12 @@ import {defineComponent} from "vue";
 
 export default defineComponent ({
   name: "ItemCard",
-  props: ['data']
+  props: ['data'],
+  methods: {
+    setActiveItem(item) {
+      this.$store.dispatch('actionActiveItem', item)
+    }
+  }
 
 })
 </script>
@@ -87,9 +92,14 @@ export default defineComponent ({
     border: 2px solid transparent;
     border-radius: 5px;
     cursor: pointer;
+    transition: 0.5s;
 
     &.gold {
       background-color: goldenrod;
+    }
+
+    &:hover {
+      opacity: 0.8;
     }
 
   }

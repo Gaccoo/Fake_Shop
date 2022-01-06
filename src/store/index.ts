@@ -15,7 +15,8 @@ export interface Store {
   shopData: Product[];
   shopCategories: string[];
   searchQueue: string;
-  activeCategory: string | undefined
+  activeCategory: string | undefined;
+  activeItem: number | undefined;
 }
 
 export default createStore<Store>({
@@ -23,21 +24,25 @@ export default createStore<Store>({
     shopData: [],
     shopCategories: [],
     searchQueue: "",
-    activeCategory: undefined
+    activeCategory: undefined,
+    activeItem: undefined,
   },
   mutations: {
-    setShopData(state, payload) {
+    setShopData(state, payload: Product[]) {
       state.shopData = payload;
     },
-    setShopCategories(state, payload) {
+    setShopCategories(state, payload: string[]) {
       state.shopCategories = payload;
     },
-    setSearch(state, payload) {
+    setSearch(state, payload: string) {
       state.searchQueue = payload;
     },
-    setActiveCategory(state, payload){
-      state.activeCategory = payload
-    }
+    setActiveCategory(state, payload: string | undefined) {
+      state.activeCategory = payload;
+    },
+    setActiveItem(state, payload: number | undefined) {
+      state.activeItem = payload;
+    },
   },
   actions: {
     async getShopData(state) {
@@ -54,13 +59,17 @@ export default createStore<Store>({
       state.commit("setSearch", data);
     },
     actionCategory(state, data) {
-      state.commit("setActiveCategory", data)
-    }
+      state.commit("setActiveCategory", data);
+    },
+    actionActiveItem(state, data) {
+      state.commit("setActiveItem", data);
+    },
   },
   modules: {},
   getters: {
     getShopData: (state) => state.shopData,
     getShopCategories: (state) => state.shopCategories,
     getActiveCategory: (state) => state.activeCategory,
+    getActiveItem: (state) => state.activeItem,
   },
 });
